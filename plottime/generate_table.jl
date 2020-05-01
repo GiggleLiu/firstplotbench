@@ -34,11 +34,23 @@ function create_table(terms, versions, t1, t2)
     join([mdrow("Package", terms), mdrow("-----", hlines), mdrow("Version", versions), mdrow("using", t1), mdrow("plot", t2)], "\n")
 end
 
+function create_table_v(terms, versions, t1, t2)
+    data = Any[]
+    push!(data, mdrow("Package", ["Version", "using", "first plot"]))
+    hlines = fill("-"^5, 3)
+    push!(data, mdrow("-----", hlines))
+    for (term, v, a, b) in zip(terms, versions, t1, t2)
+        push!(data, mdrow(term, [v, a, b]))
+    end
+    join(data, "\n")
+end
+
 function analyze(dir)
     terms, versions, t1, t2 = collect_items(dir)
-    tbl = create_table(terms, versions, t1, t2)
+    head = "# Benchmark Results\nUbuntu 18.04, Julia 1.4 \n\nCPU: Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz\n\n"
+    tbl = create_table_v(terms, versions, t1, t2)
     open(joinpath(@__DIR__, "README.md"); write=true) do f
-        write(f, tbl)
+        write(f, head *tbl)
     end
     println(tbl)
 end
