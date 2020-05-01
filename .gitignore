@@ -1,6 +1,8 @@
 *.jl.cov
 *.jl.*.cov
 *.jl.mem
+luxor*.png
+_*.svg
 
 docs/build/
 docs/site/

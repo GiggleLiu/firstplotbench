@@ -1,4 +1,3 @@
-using
 function collect1(file)
     println("Handling $file")
     open(file) do f

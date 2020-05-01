@@ -36,36 +36,38 @@ macro tryusing(sym)
     end)
 end
 
-if which == "PlotlyJS"
+if which == "PlotlyJS" # done
     @tryusing PlotlyJS
     t2[] = @elapsed PlotlyJS.plot(x, y)
-elseif which == "GR"
+elseif which == "GR" # done
     @tryusing GR
     t2[] = @elapsed GR.plot(x, y)
 elseif which == "PyPlot"
-    @tryusing PyPlot
+    @tryusing PyPlot # done
     t2[] = @elapsed PyPlot.plot(x, y)
-elseif which == "Plots"
+elseif which == "Plots" # done
     @tryusing Plots
     t2[] = @elapsed Plots.plot(x, y)
-elseif which == "UnicodePlots"
+elseif which == "UnicodePlots" # done
     @tryusing UnicodePlots
     t2[] = @elapsed UnicodePlots.lineplot(x, y)
-elseif which == "Gadfly"
+elseif which == "Gadfly" # done
     @tryusing Gadfly
     t2[] = @elapsed Gadfly.plot(y=y)
-elseif which == "VegaLite"
-    #@tryusing VegaLite
-    #t2[] = @elapsed (VegaLite.@vlplot(y))
-elseif which == "Compose"
+elseif which == "VegaLite" # done
+    @tryusing VegaLite
+    t2[] = @elapsed eval(:(VegaLite.@vlplot(:line, x=x, y=y)))
+elseif which == "Compose" # done
     @tryusing Compose
-    t2[] = @elapsed Compose.plot(x, y)
-elseif which == "Makie"
+    t2[] = @elapsed Compose.draw(SVG("_tomato.svg", 4cm, 4cm), compose(compose(context(), rectangle()), fill("tomato")))
+elseif which == "Makie" # done
     @tryusing Makie
     t2[] = @elapsed Makie.plot(x, y)
 elseif which == "Luxor"
     @tryusing Luxor
-    t2[] = @elapsed Luxor.plot(x, y)
+    t2[] = @elapsed eval(:(@png begin
+        Luxor.circle(Point(0, 0), 200, :stroke)
+    end))
 else
     error("unkown option $which")
 end
