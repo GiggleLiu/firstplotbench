@@ -61,7 +61,7 @@ end
 
 function create_table_v(terms, versions, t1, t2)
     data = Any[]
-    push!(data, mdrow("Package", ["Version", "using", "first plot"]))
+    push!(data, mdrow("Package", ["Version", "using", "first call"]))
     hlines = fill("-"^5, 3)
     push!(data, mdrow("-----", hlines))
     for (term, v, a, b) in zip(terms, versions, t1, t2)

@@ -3,7 +3,7 @@ Ubuntu 18.04, Julia 1.4
 
 CPU: Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz
 
-| Package | Version | using | first plot |
+| Package | Version | using | first call |
 | ----- | ----- | ----- | ----- |
 | Flux | 0.10.4 | 30.550973478 | 15.226170792 |
 | ForwardDiff | 0.10.10 | 1.90128111 | 0.192699703 |
