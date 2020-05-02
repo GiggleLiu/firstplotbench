@@ -11,59 +11,36 @@ const t1 = Ref(0.0)
 const t2 = Ref(0.0)
 const vnum = Ref(v"0.1.0")
 
-function installed()
-    deps = Pkg.dependencies()
-    installs = Dict{String, VersionNumber}()
-    for (uuid, dep) in deps
-        dep.is_direct_dep || continue
-        dep.version === nothing && continue
-        installs[dep.name] = dep.version
-    end
-    return installs
-end
+include("lib.jl")
 
-macro tryusing(sym)
-    esc(quote
-        pkglist = installed()
-        pkg = string($(QuoteNode(sym)))
-        if !haskey(pkglist, pkg)
-            println("installing $(pkg)...")
-            Pkg.add(pkg)
-            pkglist = installed()
-        end
-        vnum[] = pkglist[pkg]
-        t1[] = @elapsed using $sym
-    end)
-end
-
-if which == "PlotlyJS" # done
+if which == "PlotlyJS" # done!
     @tryusing PlotlyJS
-    t2[] = @elapsed PlotlyJS.plot(x, y)
-elseif which == "GR" # done
+    t2[] = @elapsed (p=PlotlyJS.plot(x, y); display(p))
+elseif which == "GR" # done!
     @tryusing GR
     t2[] = @elapsed GR.plot(x, y)
-elseif which == "PyPlot"
-    @tryusing PyPlot # done
-    t2[] = @elapsed PyPlot.plot(x, y)
-elseif which == "Plots" # done
+elseif which == "PyPlot" # done!
+    @tryusing PyPlot
+    t2[] = @elapsed (p=PyPlot.plot(x, y); PyPlot.ion(); PyPlot.show())
+elseif which == "Plots" # done!
     @tryusing Plots
-    t2[] = @elapsed Plots.plot(x, y)
-elseif which == "UnicodePlots" # done
+    t2[] = @elapsed (p=Plots.plot(x, y); display(p))
+elseif which == "UnicodePlots" # done!
     @tryusing UnicodePlots
-    t2[] = @elapsed UnicodePlots.lineplot(x, y)
-elseif which == "Gadfly" # done
+    t2[] = @elapsed (p=UnicodePlots.lineplot(x, y); display(p))
+elseif which == "Gadfly" # done!
     @tryusing Gadfly
-    t2[] = @elapsed Gadfly.plot(y=y)
-elseif which == "VegaLite" # done
+    t2[] = @elapsed (p=Gadfly.plot(y=y); display(p))
+elseif which == "VegaLite" # done?
     @tryusing VegaLite
-    t2[] = @elapsed eval(:(VegaLite.@vlplot(:line, x=x, y=y)))
-elseif which == "Compose" # done
+    t2[] = @elapsed eval(:(VegaLite.@vlplot(:line, x=x, y=y))) |> display
+elseif which == "Compose" # done!
     @tryusing Compose
     t2[] = @elapsed Compose.draw(SVG("_tomato.svg", 4cm, 4cm), compose(compose(context(), rectangle()), fill("tomato")))
-elseif which == "Makie" # done
+elseif which == "Makie" # done!
     @tryusing Makie
-    t2[] = @elapsed Makie.plot(x, y)
-elseif which == "Luxor"
+    t2[] = @elapsed (p=Makie.plot(x, y); display(p))
+elseif which == "Luxor" # done!
     @tryusing Luxor
     t2[] = @elapsed eval(:(@png begin
         Luxor.circle(Point(0, 0), 200, :stroke)
