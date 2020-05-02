@@ -1,4 +1,4 @@
-# A benchmark of first plot time and autodiff time
+# A benchmark of first plot time and autodiff time in Julia
 
 ## To run benchmarks
 e.g.
