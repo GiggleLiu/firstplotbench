@@ -1,4 +1,4 @@
-# A benchmark of first plot time
+# A benchmark of first plot time and autodiff time
 
 ## To run benchmarks
 e.g.
@@ -9,4 +9,4 @@ $ julia plottime.jl GR # run a second time to remove precompile time.
 ```
 
 ## Results
-Check [Benchmark Results](plottime/README.md)!
+Check [Benchmarking First Plot](plottime/README.md)! and [Benchmarking First Autodiff](plottime/README.md)!
